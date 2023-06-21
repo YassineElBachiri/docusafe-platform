@@ -39,7 +39,7 @@ export default ({
         onClick={() => setOpenProfile(false)}
       ></div>
       <div className="flex items-center min-h-screen px-4 py-8">
-        <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
+        <div className="relative w-full max-w-lg p-4 mx-auto bg-gray-800 rounded-md shadow-lg">
           <div className="flex justify-end">
             <button
               className="p-2 text-gray-400 rounded-md hover:bg-gray-100"
@@ -66,24 +66,24 @@ export default ({
                 src={images.avatar}
                 alt="Bonnie image"
               />
-              <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+              <h5 class="mb-1 text-xl font-medium text-gray-200 dark:text-white">
                 Welcome Trader
               </h5>
 
-              <span class="text-sm text-gray-500 dark:text-gray-400 ">
+              <span class="text-sm text-gray-200 dark:text-gray-400 ">
                 {currentUser}
               </span>
 
               <div class="flex mt-4 space-x-3 md:mt-6">
                 <a
                   href="#"
-                  class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-black rounded-lg border-2 "
+                  class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white rounded-lg border-2 "
                 >
                   Balance: 345 ETH
                 </a>
                 <a
                   href="#"
-                  class="inline-flex items-center px-4 py-2 text-sm  font-medium text-center text-black rounded-lg border-2 "
+                  class="inline-flex items-center px-4 py-2 text-sm  font-medium text-center text-white rounded-lg border-2 "
                 >
                   Total Operation: {count}
                 </a>

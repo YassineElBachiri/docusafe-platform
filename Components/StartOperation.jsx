@@ -17,7 +17,7 @@ export default ({ startModal, setStartModal, startOperation }) => {
         onClick={() => setStartModal(false)}
       ></div>
       <div className="flex items-center min-h-screen px-4 py-8">
-        <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
+        <div className="relative w-full max-w-lg p-4 mx-auto bg-gray-800 rounded-md shadow-lg">
           <div className="flex justify-end">
             <button
               className="p-2 text-gray-400 rounded-md hover:bg-gray-100"
@@ -27,8 +27,8 @@ export default ({ startModal, setStartModal, startOperation }) => {
             </button>
           </div>
           <div className="max-w-sm mx-auto py-3 space-y-3 text-center">
-            <h4 className="text-lg font-medium text-gray-800">
-              Start The Shipping
+            <h4 className="text-lg font-medium text-gray-200">
+              Start The Operation
             </h4>
 
             <form onSubmit={(e) => e.preventDefault()}>
@@ -61,9 +61,9 @@ export default ({ startModal, setStartModal, startOperation }) => {
 
               <button
                 onClick={() => startShipping()}
-                className="block w-full mt-3 py-3 px-4 font-medium text-sm text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg ring-offset-2 ring-indigo-600 focus:ring-2"
+                className="block w-full mt-3 py-3 px-4 font-medium text-sm text-center text-white bg-[#1D98DF] hover:bg-[#33cce0] p-3 rounded-full"
               >
-                Get details
+                Start
               </button>
             </form>
           </div>

@@ -23,9 +23,6 @@ export default ({
     {
       avatar: images.shipCount,
     },
-    {
-      avatar: images.send,
-    },
   ];
 
   const openModelBox = (text) => {
@@ -52,7 +49,7 @@ export default ({
                 >
                   <Image
                     src={item.avatar}
-                    className="w-full h-full object-cover object-center shadow-md rounded-xl"
+                    className="w-full h-full object-cover object-center shadow-md rounded-3xl"
                     alt=""
                   />
                 </div>

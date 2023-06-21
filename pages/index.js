@@ -10,6 +10,9 @@ import {
   CompleteOperation,
   GetOperation,
   StartOperation,
+  UploadDocument,
+  DownloadDocument,
+
 } from "../Components/index";
 import { DocusafeContext } from "../Context/DocusafeContext";
 
@@ -52,30 +55,30 @@ const index = () => {
         console.log("Error occurred while fetching operations:", error);
       }
     };
-  
+
     fetchData();
   }, []);
 
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
-  //       const allData = await getOperationsCount();
-  //       setSingleOperationData(allData);
+  //        await getOperationsCount();
   //     } catch (error) {
   //       console.log("Error occurred while fetching operations:", error);
   //     }
   //   };
-  
+
   //   fetchData();
   // }, []);
   return (
     <>
-    <Hero
+      <Hero
         setCreateOperationModel={setCreateOperationModel}
         currentUser={currentUser}
         getOperationsCount={getOperationsCount}
       />
-
+      <UploadDocument
+      />
       <Services
         setOpenProfile={setOpenProfile}
         setCompleteModal={setCompleteModal}
@@ -87,6 +90,8 @@ const index = () => {
         setCreateOperationModel={setCreateOperationModel}
         allOperationsdata={allOperationsdata}
       />
+
+      <DownloadDocument />
       <Form
         createOperationModel={createOperationModel}
         createOperation={createOperation}
@@ -107,13 +112,14 @@ const index = () => {
         getModel={getModel}
         setGetModel={setGetModel}
         getOperation={getOperation}
-        
+
       />
       <StartOperation
         startModal={startModal}
         setStartModal={setStartModal}
         startOperation={startOperation}
       />
+
     </>
   );
 };

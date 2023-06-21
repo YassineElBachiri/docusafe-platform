@@ -1,4 +1,19 @@
-export default ({ setCreateOperationModel, allOperationsdata }) => {
+import { useContext ,useState,useEffect} from "react";
+import { DocusafeContext } from "../Context/DocusafeContext"; // Update with the correct path to your context file
+
+export default ({ setCreateOperationModel }) => {
+  const { currentUser, getAllOperation } = useContext(DocusafeContext);
+  const [allOperationsdata, setAllOperationsdata] = useState([]);
+
+  useEffect(() => {
+    const fetchAllOperations = async () => {
+      const operations = await getAllOperation();
+      setAllOperationsdata(operations || []);
+    };
+
+    fetchAllOperations();
+  }, [getAllOperation]);
+
   const converTime = (time) => {
     const newTime = new Date(time);
     const dataTime = new Intl.DateTimeFormat("en-US", {
@@ -11,6 +26,17 @@ export default ({ setCreateOperationModel, allOperationsdata }) => {
   };
 
   console.log(allOperationsdata);
+
+  // Filter operations based on current user's address
+  const filteredOperations = Array.isArray(allOperationsdata)
+    ? allOperationsdata.filter(
+        (operation) =>
+          operation.sender.toLowerCase() === currentUser.toLowerCase() ||
+          operation.receiver.toLowerCase() === currentUser.toLowerCase()
+      )
+    : [];
+
+
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8">
@@ -40,17 +66,19 @@ export default ({ setCreateOperationModel, allOperationsdata }) => {
             <tr>
               <th className="py-3 px-6">Sender</th>
               <th className="py-3 px-6">Recevier</th>
+              <th className="py-3 px-6">Sender's Name</th>
+              <th className="py-3 px-6">Reciver's Name</th>
               <th className="py-3 px-6">PickupTime</th>
-              <th className="py-3 px-6">File</th>
-              <th className="py-3 px-6">Distance</th>
+              <th className="py-3 px-6">Ref</th>
               <th className="py-3 px-6">Price</th>
               <th className="py-3 px-6">Delivery Time</th>
               <th className="py-3 px-6">Confirmed</th>
               <th className="py-3 px-6">Status</th>
+              <th className="py-3 px-6">IPFS Hash</th>
             </tr>
           </thead>
           <tbody className="text-gray-600 divide-y">
-            {allOperationsdata?.map((operation, idx) => (
+            {filteredOperations?.map((operation, idx) => (
               <tr key={idx}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {operation.sender.slice(0, 15)}...
@@ -59,13 +87,16 @@ export default ({ setCreateOperationModel, allOperationsdata }) => {
                   {operation.receiver.slice(0, 15)}...
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
+                  {operation.senderName}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {operation.receiverName}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
                   {converTime(operation.pickupTime)}
-                </td>
+                </td>          
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {operation.metadataURI.slice(0, 15)}...
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {operation.distance} Km
+                  {operation.ref}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {operation.price}
@@ -82,6 +113,9 @@ export default ({ setCreateOperationModel, allOperationsdata }) => {
                     : operation.status == 1
                     ? "IN_TRANSIT"
                     : "Delivered"}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {operation.ipfsHash}
                 </td>
               </tr>
             ))}

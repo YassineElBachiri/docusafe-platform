@@ -8,6 +8,9 @@ import GetOperation from "./GetOperation";
 import CompleteOperation from "./CompleteOperation";
 import StartOperation from "./StartOperation";
 import Hero from "./Hero";
+import UploadDocument from "./UploadDocument";
+import Contact from "./Contact";
+import DownloadDocument from "./DownloadDocument";
 // import Documents from "./Documents"
 //SVG
 import Nav1 from "./SVG/Nav1";
@@ -28,6 +31,9 @@ export {
   CompleteOperation,
   StartOperation,
   Hero,
+  UploadDocument,
+  Contact,
+  DownloadDocument,
   // Documents,
   //SVG
   Nav1,

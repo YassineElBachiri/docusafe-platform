@@ -1,5 +1,4 @@
 import { useEffect, useState, useContext } from "react";
-// import logoHero from "../images/docusafe.png"
 import { DocusafeContext } from "../Context/DocusafeContext";
 import { Nav1, Nav2, Nav3 } from "../Components/index";
 export default () => {
@@ -7,10 +6,12 @@ export default () => {
   const { currentUser, connectWallet } = useContext(DocusafeContext);
 
   const navigation = [
-    { title: "Home ", path: "#" },
+    { title: "Home ", path: "/" },
     { title: "Services", path: "#" },
-    { title: "Contact Us", path: "#" },
-    { title: "Erc20", path: "#" },
+    { title: "Download", path: "/Download-page" },
+    { title: "About Us", path: "/About" },
+    { title: "Contact Us", path: "/Contact-page" },
+    
   ];
 
   useEffect(() => {
@@ -31,7 +32,8 @@ export default () => {
       <div className="gap-x-14 items-center max-w-screen-xl mx-auto px-4 md:flex md:px-8 ">
         <div className="flex items-center justify-between py-5 md:block ">
           <a href="javascript:void(0)">
-            <h3 className="text-blue-400 font-extrabold">Docusafe</h3>
+            <h3 className="text-blue-400 text-3xl font-bold">Docusafe</h3>
+            
           </a>
           <div className="md:hidden">
             <button

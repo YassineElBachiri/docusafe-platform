@@ -11,8 +11,28 @@ export default ({ getModel, setGetModel, getOperation }) => {
   };
   console.log(singleOperationData);
 
+  // const converTime = (time) => {
+  //   const newTime = new Date(time);
+  //   const dataTime = new Intl.DateTimeFormat("en-US", {
+  //     year: "numeric",
+  //     month: "2-digit",
+  //     day: "2-digit",
+  //   }).format(newTime);
+
+  //   return dataTime;
+  // };
+
+
   const converTime = (time) => {
+    if (!time) return ""; // Handle empty or undefined time value
+
     const newTime = new Date(time);
+
+    if (isNaN(newTime.getTime())) {
+      // Handle invalid date or time value
+      return "";
+    }
+
     const dataTime = new Intl.DateTimeFormat("en-US", {
       year: "numeric",
       month: "2-digit",
@@ -22,6 +42,7 @@ export default ({ getModel, setGetModel, getOperation }) => {
     return dataTime;
   };
 
+
   return getModel ? (
     <div className="fixed inset-0 z-10 overflow-y-auto">
       <div
@@ -29,7 +50,7 @@ export default ({ getModel, setGetModel, getOperation }) => {
         onClick={() => setGetModel(false)}
       ></div>
       <div className="flex items-center min-h-screen px-4 py-8">
-        <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
+        <div className="relative w-full max-w-lg p-4 mx-auto bg-gray-800 rounded-md shadow-lg">
           <div className="flex justify-end">
             <button
               className="p-2 text-gray-400 rounded-md hover:bg-gray-100"
@@ -50,7 +71,7 @@ export default ({ getModel, setGetModel, getOperation }) => {
             </button>
           </div>
           <div className="max-w-sm mx-auto py-3 space-y-3 text-center ">
-            <h4 className="text-lg font-medium text-gray-800">
+            <h4 className="text-lg font-medium text-gray-200">
               Product Details
             </h4>
 
@@ -66,30 +87,41 @@ export default ({ getModel, setGetModel, getOperation }) => {
 
               <button
                 onClick={() => getoperationData()}
-                className="block w-full mt-3 py-3 px-4 font-medium text-sm text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg ring-offset-2 ring-indigo-600 focus:ring-2"
+                className="block w-full mt-3 py-3 px-4 font-medium text-sm text-center text-white bg-[#1D98DF] hover:bg-[#33cce0] p-3 rounded-full"
               >
                 Get details
               </button>
             </form>
 
             {singleOperationData == undefined ? (
-              ""
+              " "
             ) : (
-              <div className="text-left">
-                <p>Sender: {singleOperationData.sender.slice(0, 25)}...</p>
-                <p>Recevier: {singleOperationData.receiver.slice(0, 25)}...</p>
-                <p>PickupTime: {converTime(singleOperationData.pickupTime)}</p>
+              <div className="text-left text-white">
+                <p>{singleOperationData ? (
+                  <div className="text-left text-white">
+                    <p>Sender: {singleOperationData.sender?.slice(0, 25)}...</p>
+                    <p>Receiver: {singleOperationData.receiver?.slice(0, 25)}...</p>
+                    <p>Sender's Name:{singleOperationData.senderName}</p>
+                    <p>Receiver's Name:{singleOperationData.receiverName}</p>
+                    <p>PickupTime: {converTime(singleOperationData.pickupTime)}</p>
                 <p>
                   DeliveryTime: {converTime(singleOperationData.deliveryTime)}
                 </p>
-                <p>Document: {singleOperationData.metadataURI}</p>
-                <p>Distance: {singleOperationData.distance}</p>
+                <p>Ref: {singleOperationData.distance}</p>
                 <p>Price: {singleOperationData.price}</p>
                 <p>Status: {singleOperationData.status == 2 ? "Delivered" : "Not Delivered"}</p>
                 <p>
                   Confirmed:{" "}
-                  {singleOperationData.isConfirmed ? "Completed" : "Not Completed"}
+                  {singleOperationData.isConfirmed ? "Confirmed" : "Not Confirmed"}
                 </p>
+                <p>IPFS Hash: {singleOperationData.ipfsHash}</p>
+                  </div>
+                ) : (
+                  <div>Loading data...</div>
+                )}</p>
+                {/* <p>Recevier: {singleOperationData.receiver.slice(0, 25)}...</p> */}
+                
+
               </div>
             )}
           </div>

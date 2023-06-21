@@ -1,5 +1,6 @@
-import { useState } from "react";
-import {create} from "ipfs-http-client";
+import React, { useState , useEffect} from 'react';
+import { create } from 'ipfs-http-client';
+
 
 
 export default ({
@@ -7,62 +8,82 @@ export default ({
   createOperationModel,
   createOperation,
 }) => {
-  const auth =
-  'Basic ' +
-  Buffer.from(
-    '2Pi8QNihFKDiDkJABLM4PUJoejK' + ':' + 'ae6ce97bc2094852097a5f9bf2001649',
-  ).toString('base64')
-
-const client = create({
-  host: 'ipfs.infura.io',
-  port: 5001,
-  protocol: 'https',
-  headers: {
-    authorization: auth,
-  },
-})
-
-  const [reciever, setReciever] = useState('')
-  const [pickupTime, setPickupTime] = useState('')
-  const [distance, setDistance] = useState('')
-  const [price, setPrice] = useState('')
-  const [file, setFile] = useState(null)
 
 
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [ipfsHash, setIpfsHash] = useState('');
 
 
-  const createItem = async (e) => {
-    if (!reciever  || !price) return
+  const [operation, setOperation] = useState({
+    receiver: "",
+    pickupTime: "",
+    senderName: "",
+    receiverName:"",
+    ref: "",
+    price: "",
+    ipfsHash: "",
+  });
 
-    alert('Uploading to ipfs')
 
+  const createItem = async () => {
     try {
-      const created = await client.add(file)
-      const metadataURI = `https://ipfs.io/ipfs/${created.path}`
-      const bdt = { reciever, pickupTime, distance, price,metadataURI }
-
-      alert('Intializing transaction...')
-      setFile(metadataURI)
-       await createOperation(bdt)
-
-      window.location.reload()
+      // Set the IPFS hash in the operation object
+      const updatedOperation = { ...operation, ipfsHash: ipfsHash };
+      await createOperation(updatedOperation);
+      localStorage.setItem('operation', JSON.stringify(updatedOperation));
+      window.location.reload();
     } catch (error) {
-      console.log('Error uploading file: ', error)
-      setAlert('Minting failed...', 'red')
+      console.log("Error creating item");
     }
-    
-  }
+  };
   
-  const changeImage = async (e) => {
-    const reader = new FileReader()
-    if (e.target.files[0]) reader.readAsDataURL(e.target.files[0])
 
-    reader.onload = () => {
-      
-      
-      setFile(e.target.files[0])
+  useEffect(() => {
+    const storedOperation = localStorage.getItem('operation');
+    if (storedOperation) {
+      setOperation(JSON.parse(storedOperation));
     }
-  }
+  }, []);
+  
+
+
+
+
+  // const createItem = async () => {
+  //   try {
+  //     await createOperation(operation);
+  //     window.location.reload();
+  //   } catch (error) {
+  //     console.log("Wrong creating item");
+  //   }
+  // };
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    try {
+
+      const auth = 'Basic ' + Buffer.from('2Pi8QNihFKDiDkJABLM4PUJoejK' + ':' + 'ae6ce97bc2094852097a5f9bf2001649').toString('base64');
+      const client = create({
+        host: 'ipfs.infura.io',
+        port: 5001,
+        protocol: 'https',
+        headers: {
+          authorization: auth,
+        },
+
+      });
+      const result = await client.add(selectedFile);
+      const hash = result.cid.toString();
+      setIpfsHash(hash);
+    } catch (error) {
+      console.log('Error uploading document to IPFS:', error);
+    }
+  };
+
+
   return createOperationModel ? (
     <div className="fixed inset-0 z-10 overflow-y-auto">
       <div
@@ -70,7 +91,7 @@ const client = create({
         onClick={() => setCreateOperationModel(false)}
       ></div>
       <div className="flex items-center min-h-screen px-4 py-8">
-        <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
+        <div className="relative w-full max-w-lg p-4 mx-auto bg-gray-800 rounded-md shadow-lg">
           <div className="flex justify-end">
             <button
               className="p-2 text-gray-400 rounded-md hover:bg-gray-100"
@@ -91,10 +112,10 @@ const client = create({
             </button>
           </div>
           <div className="max-w-sm mx-auto py-3 space-y-3 text-center">
-            <h4 className="text-lg font-medium text-gray-800">
-              Track product, Create Operation
+            <h4 className="text-lg font-medium text-gray-200">
+              Create Operation
             </h4>
-            <p className="text-[15px] text-gray-600">
+            <p className="text-[15px] text-gray-500">
               Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
             </p>
@@ -104,7 +125,40 @@ const client = create({
                   type="text"
                   placeholder="receiver"
                   className="w-full pl-5 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                  onChange={(e) => setReciever(e.target.value)}
+                  onChange={(e) =>
+                    setOperation({
+                      ...operation,
+                      receiver: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="relative mt-3">
+                <input
+                  type="text"
+                  placeholder="Sender's Name"
+                  className="w-full pl-5 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                  onChange={(e) =>
+                    
+                    setOperation({
+                      ...operation,
+                      senderName: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="relative mt-3">
+                <input
+                  type="text"
+                  placeholder="Reciever's Name"
+                  className="w-full pl-5 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                  onChange={(e) =>
+                    
+                    setOperation({
+                      ...operation,
+                      receiverName: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div className="relative mt-3">
@@ -112,23 +166,26 @@ const client = create({
                   type="date"
                   placeholder="pickupTime"
                   className="w-full pl-5 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                  onChange={(e) => setPickupTime(e.target.value)}
+                  onChange={(e) =>
+                    setOperation({
+                      ...operation,
+                      pickupTime: e.target.value,
+                    })
+                  }
                 />
               </div>
-              <div className="relative mt-3">
-                <input
-                  type="file"
-                  className="w-full pl-5 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                  onChange={changeImage}
-                />
 
-              </div>
               <div className="relative mt-3">
                 <input
                   type="text"
-                  placeholder="distance"
+                  placeholder="Ref"
                   className="w-full pl-5 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                  onChange={(e) => setDistance(e.target.value)}
+                  onChange={(e) =>
+                    setOperation({
+                      ...operation,
+                      ref: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div className="relative mt-3">
@@ -136,13 +193,51 @@ const client = create({
                   type="text"
                   placeholder="price"
                   className="w-full pl-5 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                  onChange={(e) => setPrice(e.target.value)}
+                  onChange={(e) =>
+                    setOperation({
+                      ...operation,
+                      price: e.target.value,
+                    })
+                  }
                 />
               </div>
+              <div className="max-w-lg mx-auto py-3 space-y-3 text-center">
+                <h1 className="text-lg font-medium text-white">Upload Document to IPFS</h1>
+                <input
+                  className="w-full pl-5 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                  type="file"
+                  onChange={handleFileChange}
+                />
+                <button
+                  className="shadow-xl shadow-black text-white bg-[#1D98DF] hover:bg-[#33cce0] p-3 rounded-full"
+                  onClick={handleUpload}
+                  disabled={!selectedFile}
+                >
+                  Upload
+                </button>
+               
+
+                <div className="relative mt-3">
+                  <input
+                    type="text"
+                    placeholder="IPFS hash"
+                    className="w-full pl-5 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                    onChange={(e) =>
+                      
+                      setOperation({
+                        ...operation,
+                        ipfsHash: e.target.value,
+                      })
+                    }
+                    value={ipfsHash} // Set the value of the input to the ipfsHash in your state
+                  />
+                </div>
+              </div>
+
 
               <button
                 onClick={() => createItem()}
-                className="block w-full mt-3 py-3 px-4 font-medium text-sm text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg ring-offset-2 ring-indigo-600 focus:ring-2"
+                className="block w-full mt-3 py-3 px-4 font-medium text-sm text-center text-white bg-[#1D98DF] hover:bg-[#33cce0] p-3 rounded-full"
               >
                 Create Operation
               </button>

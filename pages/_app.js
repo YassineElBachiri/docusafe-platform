@@ -1,8 +1,10 @@
 import "../styles/globals.css";
 
 //INTERNAL IMPORT
-import { Footer, Banner, NavBar, Documents} from "../Components";
+import { Footer, Banner, NavBar, Documents,Contact} from "../Components";
 import { DocusafeProvider } from "../Context/DocusafeContext";
+
+
 export default function App({ Component, pageProps }) {
   return (
     <>
@@ -12,7 +14,10 @@ export default function App({ Component, pageProps }) {
         <NavBar />
         
         {/* <Documents /> */}
-        <Component {...pageProps} />
+        
+              <Component {...pageProps} />
+          
+        <Contact/>
         <Footer />
       </DocusafeProvider>
       </div>

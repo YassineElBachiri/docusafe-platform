@@ -18,34 +18,35 @@ export const DocusafeProvider = ({ children }) => {
   const DappName = "docusafe Dapp";
   const [currentUser, setCurrentUser] = useState("");
 
-  const createOperation = async (receiver, pickupTime, distance, price, metadataURI) => {
+  const createOperation = async (items) => {
+    console.log(items);
+    const { receiver, pickupTime, senderName,receiverName, ref, price , ipfsHash} = items;
+
     try {
       const web3Modal = new Web3Modal();
       const connection = await web3Modal.connect();
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner();
       const contract = fetchContract(signer);
-  
       const createItem = await contract.createOperation(
         receiver,
+        senderName,
+        receiverName,
         new Date(pickupTime).getTime(),
-        distance,
+        ref,
         ethers.utils.parseUnits(price, 18),
-        metadataURI,
+        ipfsHash,
         {
           value: ethers.utils.parseUnits(price, 18),
         }
       );
-  
-      alert('ok');
       await createItem.wait();
       console.log(createItem);
       location.reload();
     } catch (error) {
-      console.log("Something went wrong", error);
+      console.log("Some want wrong", error);
     }
   };
-  
 
   const getAllOperation = async () => {
     try {
@@ -53,23 +54,24 @@ export const DocusafeProvider = ({ children }) => {
       const contract = fetchContract(provider);
 
       const operations = await contract.getAllTransactions();
-      const allOperations = operations.map((operation) => ({
+      console.log("here1")
+      const allOperationsdata = operations.map((operation) => ({
         sender: operation.sender,
         receiver: operation.receiver,
-        metadataURI: operation.metadataURI,
+        senderName:operation.senderName,
+        receiverName:operation.receiverName,
         pickupTime: operation.pickupTime.toNumber(),
         deliveryTime: operation.deliveryTime.toNumber(),
         price: ethers.utils.formatEther(operation.price.toString()),
-        distance: operation.distance.toNumber(),
+        ref: operation.ref.toNumber(),
         isConfirmed: operation.isConfirmed,
         status: operation.status,
-        
-        
+        ipfsHash: operation.ipfsHash,
       }));
-
-      return allOperations;
+      console.log("here2")
+      return allOperationsdata;
     } catch (error) {
-      console.log("error want, getting operation");
+      console.log("error want, getting all operation",error);
     }
   };
 
@@ -85,7 +87,7 @@ export const DocusafeProvider = ({ children }) => {
       const operationsCount = await contract.getOperationsCount(accounts[0]);
       return operationsCount.toNumber();
     } catch (error) {
-      console.log("error want, getting operation");
+      console.log("error want, getting operation count",error);
     }
   };
 
@@ -138,13 +140,15 @@ export const DocusafeProvider = ({ children }) => {
       const SingleOperation = {
         sender: operation[0],
         receiver: operation[1],
-        pickupTime: operation[2].toNumber(),
-        deliveryTime: operation[3].toNumber(),
-        metadataURI:operation[4],
-        distance: operation[5].toNumber(),
-        price: ethers.utils.formatEther(operation[6].toString()),
-        status: operation[7],
-        isConfirmed: operation[8],
+        senderName:operation[2],
+        receiverName:operation[3],
+        pickupTime: operation[4].toNumber(),
+        deliveryTime: operation[5].toNumber(),
+        ref: operation[6].toNumber(),
+        price: ethers.utils.formatEther(operation[7].toString()),
+        status: operation[8],
+        isConfirmed: operation[9],
+        ipfsHash: operation[10],
       };
 
       return SingleOperation;
