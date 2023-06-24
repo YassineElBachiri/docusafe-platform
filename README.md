@@ -46,6 +46,8 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 <img width="936" alt="Screenshot 2023-06-24 134932" src="https://github.com/YassineElBachiri/docusafe-platform/assets/76871586/b8241b6a-8961-4eb6-9aa2-e873b33d1457">
 
+<img width="910" alt="Screenshot 2023-06-24 135223" src="https://github.com/YassineElBachiri/docusafe-platform/assets/76871586/1b4d1d9f-6873-447f-ba0a-699058f59732">
+
 <img width="542" alt="Screenshot 2023-05-25 201630" src="https://github.com/YassineElBachiri/docusafe-platform/assets/76871586/ce377619-3eb9-4891-b0d6-b9cf6795c861">
 
 <img width="927" alt="Screenshot 2023-06-21 162915" src="https://github.com/YassineElBachiri/docusafe-platform/assets/76871586/1794e768-3943-45c2-9b62-2c4685927c5c">
