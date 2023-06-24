@@ -58,7 +58,7 @@ return (
       <div className='md:w-3/6 w-full '>
       <div className="max-w-lg mx-auto py-3 space-y-3  mt-14">
       <h4 className="text-4xl text-center font-bold text-gray-200 mb-8">
-        Contact Us
+        Contact Us 
       </h4>
       <p className="text-[15px] text-gray-400">
         Ut enim ad minim veniam, quis nostrud exercitation.
