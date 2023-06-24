@@ -19,7 +19,7 @@ npx hardhat run --network localhost scripts/deploy.js
 ```
 
 
-Don't forget to download [https://metamask.io/download/](https://metamask.io/download/)
+Don't forget to download Metamask wallet [https://metamask.io/download/](https://metamask.io/download/)
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
