@@ -1,6 +1,9 @@
-## My Final Year Project For Bachelor’s degree in Computer Engineering.
-# The Result obtained by the project from the juries is 95/100.
+# My Final Year Project For Bachelor’s degree in Computer Engineering.
+## The Result obtained by the project from the juries is 95/100.
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
 
 ## Getting Started
 
