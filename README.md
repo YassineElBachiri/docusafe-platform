@@ -2,8 +2,6 @@
 ## The Result obtained by the project from the juries is 95/100.
 
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 
 ## Getting Started
 
@@ -41,7 +39,7 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## This is How it's look
+## This is How it's look :)
 
 <img width="933" alt="Screenshot 2023-05-25 200814" src="https://github.com/YassineElBachiri/docusafe-platform/assets/76871586/ecdf42d9-b0fa-4032-835a-3f1c09e261c8">
 
